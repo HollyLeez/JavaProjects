@@ -29,4 +29,8 @@
     <select id="getEmployeeByMap" resultType="emp">
         select * from tbl_employee where id=#{id} and last_name=#{lastName}
     </select>
+    <!--如果返回的是一个集合，resultType要写集合中元素的类型-->
+    <select id="getEmployeeList" resultType="emp">
+        select * from tbl_employee
+    </select>
 </mapper>

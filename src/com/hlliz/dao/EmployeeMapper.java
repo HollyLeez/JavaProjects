@@ -1,5 +1,6 @@
 package com.hlliz.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,6 @@ public interface EmployeeMapper {
     public Employee getByIdAndLastName(@Param("id") int id, @Param("lastName") String lastName);
 
     public Employee getEmployeeByMap(Map<String, Object> map);
+
+    public List<Employee> getEmployeeList();
 }

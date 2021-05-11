@@ -3,6 +3,7 @@ package com.hlliz.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
@@ -166,6 +167,26 @@ public class MybatisTest {
             map.put("lastName", "Tom");
             Employee employee = mapper.getEmployeeByMap(map);
             System.out.println(employee);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null){
+                sqlSession.close();
+            }
+        }
+    }
+    @Test
+    public void testgetList(){
+        SqlSession sqlSession = null;
+        try {
+            SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+            //获取到的sqlSession不会自动提交数据
+            sqlSession = sqlSessionFactory.openSession();
+            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+            List<Employee> list = mapper.getEmployeeList();
+            for (Employee employee : list) {
+                System.out.println(employee);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
