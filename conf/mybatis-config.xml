@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+    mybatis可以使用properties标签引入外部priperties配置文件内容
+    resource：引入类路径下的资源
+    url:引入磁盘路径下的资源
+    -->
+    <properties resource="dbconfig.properties"></properties>
+    <!--
+    settings包含很多重要的设置项
+    -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!--
+    别名，默认类名首字母下哦安歇
+    alisas:指定别名
+    -->
+    <typeAliases>
+        <!--<typeAlias type="com.hlliz.bean.Employee" alias="emp" />-->
+        <!--批量起别名，别名不区分大小写-->
+        <package name="com.hlliz.bean" />
+        <!--package的情况下，如果类名重复，还可以使用注解起别名，在类名上面 @Alias("别名")-->
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--注册配置文件：
+            resource引用类路径下的映射文件
+            url引用网络或磁盘路径下的映射文件
+            注册接口：
+            class引用接口
+            1、接口和sql映射文件同名并且在同一个文件下
+            2、没有sql映射文件，所有sql都写在注解上-->
+        <!--<mapper resource="com/hlliz/dao/EmployeeMapper.xml"/>
+        <mapper class="com.hlliz.dao.EmployeeMapperAnnotation"/>-->
+
+        <!--批量注册，Mapper映射文件和接口同名且要在同一个包下-->
+        <package name="com.hlliz.dao"/>
+    </mappers>
+</configuration>
