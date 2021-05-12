@@ -33,4 +33,12 @@
     <select id="getEmployeeList" resultType="emp">
         select * from tbl_employee
     </select>
+
+    <select id="getEmpMapById" resultType="map">
+        select * from tbl_employee where id = #{id}
+    </select>
+
+    <select id="getEmpMap" resultType="com.hlliz.bean.Employee">
+        select * from tbl_employee
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.hlliz.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import com.hlliz.bean.Employee;
 import com.hlliz.dao.EmployeeMapper;
 import com.hlliz.dao.EmployeeMapperAnnotation;
+import com.hlliz.dao.EmployeeMapperDynamicSQL;
 
 public class MybatisTest {
     @Test
@@ -187,6 +189,69 @@ public class MybatisTest {
             for (Employee employee : list) {
                 System.out.println(employee);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null){
+                sqlSession.close();
+            }
+        }
+    }
+
+    @Test
+    public void testgetMap(){
+        SqlSession sqlSession = null;
+        try {
+            SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+            //获取到的sqlSession不会自动提交数据
+            sqlSession = sqlSessionFactory.openSession();
+            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+            Map<String, Object> map = mapper.getEmpMapById(4);
+            System.out.println(map);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null){
+                sqlSession.close();
+            }
+        }
+    }
+    @Test
+    public void testgetMap2(){
+        SqlSession sqlSession = null;
+        try {
+            SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+            //获取到的sqlSession不会自动提交数据
+            sqlSession = sqlSessionFactory.openSession();
+            EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+            Map<Integer, Employee> map = mapper.getEmpMap();
+            System.out.println(map);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null){
+                sqlSession.close();
+            }
+        }
+    }
+
+    @Test
+    public void testGetByCondition(){
+        SqlSession sqlSession = null;
+        try {
+            SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+            //获取到的sqlSession不会自动提交数据
+            sqlSession = sqlSessionFactory.openSession();
+            EmployeeMapperDynamicSQL mapper = sqlSession.getMapper(EmployeeMapperDynamicSQL.class);
+            List<Employee> list = new ArrayList<>();
+            Employee emp1 = new Employee(null, "Smith","1","smith@qq.com");
+            Employee emp2 = new Employee(null, "Willian","1","willian@istst.com");
+            list.add(emp1);
+            list.add(emp2);
+            mapper.addEmps(list);
+            sqlSession.commit();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
