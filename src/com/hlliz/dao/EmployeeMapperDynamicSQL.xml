@@ -82,4 +82,35 @@
             (#{emp.lastName},#{emp.email},#{emp.gender})
         </foreach>
     </insert>
+
+    <!--
+    两个内置参数：
+        _parameter:代表整个参数，单个参数这就是那个参数，如果是多个参数，就是所有参数封装成的一个map
+        _databaseId:如果配置了databaseIdProvider标签，就代表当前数据库的别名
+    -->
+    <select id="getEmpsTestInnerParam" resultType="com.hlliz.bean.Employee">
+        <if test="_databaseId=='mysql'">
+            select * from tbl_employee
+            <if test="_parameter!=null">
+                where last_name=#{_parameter.lastName}
+            </if>
+        </if>
+        <if test="_databaseId=='oracle'">
+            select * from employees
+        </if>
+    </select>
+    <!--bind标签可以将ORNL表达式的值绑定到一个变量中，方便后来引用这个变量的值-->
+    <select id="getEmpsTestBind" resultType="com.hlliz.bean.Employee">
+        <bind name="_lastName" value="'%'+lastName+'%'" />
+        select * from tbl_employee where last_name like #{_lastName}
+    </select>
+
+    <!--可重用代码片段，引用式使用include-->
+    <sql id="insertColumns">
+            (last_name,email,gender)
+    </sql>
+    <insert id="testInclude">
+        insert into tbl_employee <include refid="insertColumns"></include>
+        values(#{lastName},#{email},#{gender})
+    </insert>
 </mapper>

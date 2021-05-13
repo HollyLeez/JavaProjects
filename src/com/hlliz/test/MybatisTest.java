@@ -260,6 +260,25 @@ public class MybatisTest {
             }
         }
     }
+    @Test
+    public void testBind(){
+        SqlSession sqlSession = null;
+        try {
+            SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+            //获取到的sqlSession不会自动提交数据
+            sqlSession = sqlSessionFactory.openSession();
+            EmployeeMapperDynamicSQL mapper = sqlSession.getMapper(EmployeeMapperDynamicSQL.class);
+            Employee emp = new Employee(null,"Holly","0","missli0702@163.com");
+            mapper.testInclude(emp);
+            sqlSession.commit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlSession!=null){
+                sqlSession.close();
+            }
+        }
+    }
     public  SqlSessionFactory getSqlSessionFactory() throws IOException {
         InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
         return new SqlSessionFactoryBuilder().build(inputStream);

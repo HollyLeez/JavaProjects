@@ -18,4 +18,9 @@ public interface EmployeeMapperDynamicSQL {
 
     public void addEmps(@Param("emps") List<Employee> emps);
 
+    public List<Employee> getEmpsTestInnerParam(Employee emp);
+
+    public List<Employee> getEmpsTestBind(@Param("lastName") String lastName);
+
+    public void testInclude(Employee emp);
 }
