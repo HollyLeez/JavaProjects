@@ -3,6 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hlliz.dao.EmployeeMapper">
+    <!--配置二级缓存
+    eviction：回收策略
+    flushInterval：缓存刷新间隔，多长时间清空一次，默认不清空，可以设置毫秒值
+    readOnly：缓存是否只读，true/false，默认从缓存中获取的数据都是只读的，不会修改数据，会将缓存中的引用直接交给用户。不安全，速度快。
+               非只读，会使用序列化与反序列化的技术克隆一份新的数据给用户，安全，速度稍慢
+    size：缓存中存放多少个元素
+    type：指定自定义的缓存全类名，实现Cache接口即可
+    -->
+    <cache></cache>
+    <!--<cache eviction="" flushInterval="60000" readOnly="" size="" type=""></cache>-->
     <!--namespace命名空间，指定为接口的全类名-->
     <select id="getEmployeeById" resultType="emp">
         select * from tbl_employee where id = #{id}
